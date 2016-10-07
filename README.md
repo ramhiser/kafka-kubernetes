@@ -18,31 +18,31 @@ Given that Kafka depends on [Zookeeper](https://zookeeper.apache.org/) for
 [reasons](https://www.quora.com/What-is-the-actual-role-of-ZooKeeper-in-Kafka),
 we need to deploy Zookeeper before we create the Kafka cluster. Following
 [Sylvain's post](http://www.defuze.org/archives/351-running-a-zookeeper-and-kafka-cluster-with-kubernetes-on-aws.html),
-we launch three distinct replication controllers to specify the Zookeeper ID of
-each instance and to list all brokers in the pool. As of now, we are unable to
-use a single replication controller with three Zookeeper instances. Even worse,
-we need to use three distinct services as well.
+we launch three distinct deployments to specify the Zookeeper ID of each
+instance and to list all brokers in the pool. As of now, we are unable to use a
+single deployment with three Zookeeper instances. Even worse, we need to use
+three distinct services as well.
 
 ```
 $ kubectl create -f zookeeper-services.yaml
 $ kubectl create -f zookeeper-cluster.yaml
 ```
 
-After the Zookeeper cluster is launched, check that all three replication
-controllers are `Running`.
+After the Zookeeper cluster is launched, check that all three deployments are
+`Running`.
 
 ```
 $ kubectl get pods
-zookeeper-controller-1-dbauf   1/1       Running   0          2h
-zookeeper-controller-2-mp6nb   1/1       Running   0          2h
-zookeeper-controller-3-26ere   1/1       Running   0          2h
+zookeeper-deployment-1-dbauf   1/1       Running   0          2h
+zookeeper-deployment-2-mp6nb   1/1       Running   0          2h
+zookeeper-deployment-3-26ere   1/1       Running   0          2h
 ```
 
-One of the replication controllers should be `LEADING`, while the other two
-should be `FOLLOWERS`. To check that, look at the pod logs.
+One of the deployments should be `LEADING`, while the other two should be
+`FOLLOWERS`. To check that, look at the pod logs.
 
 ```
-$ kubectl logs zookeeper-controller-1-dbauf
+$ kubectl logs zookeeper-deployment-1-dbauf
 ...
 2016-10-06 14:04:05,904 [myid:2] - INFO [QuorumPeer[myid=2]/0:0:0:0:0:0:0:0:2181:Leader@358] - LEADING - LEADER ELECTION TOOK - 2613
 ```
@@ -102,7 +102,6 @@ kafkacat -b xxxxxx.us-east-1.elb.amazonaws.com:9092 -t ramhiser
 ## Known Issues
 
 * AWS ELB must be hardcoded in `kafka-cluster.yaml`
-* Uses Kubernetes Replication Controllers instead of Deployments
 * Zookeeper instances do not use a single replication controller
 * Scaling the number of instances via Kubernetes does not automatically
   replicate data to new brokers
