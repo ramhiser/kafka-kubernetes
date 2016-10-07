@@ -6,12 +6,10 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: zookeeper-1
       name: zookeeper-1
   template:
     metadata:
       labels:
-        app: zookeeper-1
         name: zookeeper-1
     spec:
       containers:
@@ -37,12 +35,10 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: zookeeper-2
       name: zookeeper-2
   template:
     metadata:
       labels:
-        app: zookeeper-2
         name: zookeeper-2
     spec:
       containers:
@@ -68,12 +64,10 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: zookeeper-3
       name: zookeeper-3
   template:
     metadata:
       labels:
-        app: zookeeper-3
         name: zookeeper-3
     spec:
       containers:
