@@ -1,0 +1,14 @@
+kind: Job
+apiVersion: batch/v1
+metadata:
+  name: kafka-test
+spec:
+  template:
+    metadata:
+      name: kafka-test
+    spec:
+      containers:
+      - name: kafka-test
+        image: "ramhiser/kafka-test:latest"
+        command: ["/bin/bash", "-c", "cat /var/log/dpkg.log | kafkacat -b kafka-service:9092 -t kafka_test_topic && kafkacat -C -b kafka-service:9092 -t kafka_test_topic"]
+      restartPolicy: Never
