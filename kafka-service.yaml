@@ -12,4 +12,3 @@ spec:
     protocol: TCP
   selector:
     name: kafka
-  type: LoadBalancer
