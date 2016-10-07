@@ -1,15 +1,18 @@
-apiVersion: v1
-kind: ReplicationController
+kind: Deployment
+apiVersion: extensions/v1beta1
 metadata:
-  name: zookeeper-controller-1
+  name: zookeeper-deployment-1
 spec:
   replicas: 1
   selector:
-    app: zookeeper-1
+    matchLabels:
+      app: zookeeper-1
+      name: zookeeper-1
   template:
     metadata:
       labels:
         app: zookeeper-1
+        name: zookeeper-1
     spec:
       containers:
       - name: zoo1
@@ -26,18 +29,21 @@ spec:
         - name: ZOOKEEPER_SERVER_3
           value: zoo3
 ---
-apiVersion: v1
-kind: ReplicationController
+kind: Deployment
+apiVersion: extensions/v1beta1
 metadata:
-  name: zookeeper-controller-2
+  name: zookeeper-deployment-2
 spec:
   replicas: 1
   selector:
-    app: zookeeper-2
+    matchLabels:
+      app: zookeeper-2
+      name: zookeeper-2
   template:
     metadata:
       labels:
         app: zookeeper-2
+        name: zookeeper-2
     spec:
       containers:
       - name: zoo2
@@ -54,18 +60,21 @@ spec:
         - name: ZOOKEEPER_SERVER_3
           value: zoo3
 ---
-apiVersion: v1
-kind: ReplicationController
+kind: Deployment
+apiVersion: extensions/v1beta1
 metadata:
-  name: zookeeper-controller-3
+  name: zookeeper-deployment-3
 spec:
   replicas: 1
   selector:
-    app: zookeeper-3
+    matchLabels:
+      app: zookeeper-3
+      name: zookeeper-3
   template:
     metadata:
       labels:
         app: zookeeper-3
+        name: zookeeper-3
     spec:
       containers:
       - name: zoo3
