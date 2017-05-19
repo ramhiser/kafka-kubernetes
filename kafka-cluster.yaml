@@ -11,6 +11,7 @@ spec:
     metadata:
       labels:
         name: kafka
+        app: kafka
     spec:
       containers:
       - name: kafka
